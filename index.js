@@ -1,3 +1,32 @@
+const inquirer = require("inquirer");
+const fs = require("fs");
+
+var licences = [];
+var selectedLicence;
+var licenceInfo;
+var userInput;
+
+async function fetchLicences() {
+    const response = await fetch('https://api.github.com/licenses')
+    const data = await response.json();
+    // console.log("fetch licences data: ", data);
+    for(i=0; i<data.length; i++){
+        licences[i] = [{
+            licenceName: data[i].name,
+            licenceURL: data[i].url
+        }];
+    }
+    return licences;
+  }
+
+  async function fetchLicenceInformation(selectedLicence) {
+    const response = await fetch(selectedLicence)
+    const data = await response.json();
+    licenceInfo  = data.description;
+    return licenceInfo;
+  }
+
+
 async function ask(){
     await fetchLicences();
   //   console.log("licences: " + licences[0][0])
