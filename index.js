@@ -82,3 +82,58 @@ async function ask(){
           }
           
       ])
+      .then((response) => {
+        userInput = response;
+        // console.log(userInput)
+        for(i = 0; i < licences.length; i++){
+          // console.log(licences[i]);
+          if(response.licence == licences[i][0].licenceName){
+              // console.log(licences[i])
+              selectedLicence = licences[i][0].licenceURL;
+              // console.log(selectedLicence);
+          }
+      }
+        fetchLicenceInformation(selectedLicence)
+    .then((licenceInfo) => {
+      currentLicence = licenceInfo;
+        console.log("licenceInfo : " + currentLicence)
+        badgeLicence = userInput.licence.split(" ").join("_");
+        console.log(badgeLicence + "Badge")
+
+        var markdown = (userInput, currentLicence) => {
+return `# ${userInput.repoName} 
+![Static Badge](https://img.shields.io/badge/Licence-${badgeLicence}-blue)
+## Table of Contents: 
+* [Description](#description)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Licence](#licence)
+* [Contributing](#contributing)
+* [Tests](#tests)
+* [Questions](#questions)
+## Description:
+${userInput.description}
+## Installation: 
+${userInput.install}
+## Usage: 
+${userInput.usage}
+## Licence: 
+**${userInput.licence}** <br>
+${currentLicence}            
+## Contributing:
+${userInput.contributing}
+## Tests:
+${userInput.tests}
+## Questions:
+Find my work at [${userInput.username}](https://github.com/${userInput.username}), or email me at ${userInput.userEmail}.
+`
+        }
+
+        fs.writeFile("README.md", (markdown(userInput, currentLicence)), (err) => {
+            err ? console.log(err) : console.log("file created");
+        })
+    })
+  })
+}
+
+ask();
