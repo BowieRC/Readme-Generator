@@ -57,11 +57,6 @@ async function ask(){
         },
         {
             type: "input",
-            name: "tests",
-            message: "Enter Testing Instructions"
-        },
-        {
-            type: "input",
             name: "username",
             message: "Enter your Github username"
         },
@@ -88,9 +83,7 @@ async function ask(){
         fetchLicenceInformation(selectedLicence)
     .then((licenceInfo) => {
       currentLicence = licenceInfo;
-        console.log("licenceInfo : " + currentLicence)
         badgeLicence = userInput.licence.split(" ").join("_");
-        console.log(badgeLicence + "Badge")
 
         var markdown = (userInput, currentLicence) => {
 return `# ${userInput.repoName} 
@@ -101,7 +94,6 @@ return `# ${userInput.repoName}
 * [Usage](#usage)
 * [Licence](#licence)
 * [Contributing](#contributing)
-* [Tests](#tests)
 * [Questions](#questions)
 ## Description:
 ${userInput.description}
@@ -114,8 +106,6 @@ ${userInput.usage}
 ${currentLicence}            
 ## Contributing:
 ${userInput.contributing}
-## Tests:
-${userInput.tests}
 ## Questions:
 Find my work at [${userInput.username}](https://github.com/${userInput.username}), or email me at ${userInput.userEmail}.
 `
